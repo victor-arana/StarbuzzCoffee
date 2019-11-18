@@ -25,8 +25,8 @@ public class TopLevelActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         if( position == 0){
-            Toast.makeText(this, "To be implemented", Toast.LENGTH_LONG).show();
-
+            Intent intent = new Intent(TopLevelActivity.this, DrinkCategoryActivity.class);
+            startActivity(intent);
         }
     }
 }
