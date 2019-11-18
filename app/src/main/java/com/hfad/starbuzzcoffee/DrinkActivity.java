@@ -3,6 +3,7 @@ package com.hfad.starbuzzcoffee;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DrinkActivity extends AppCompatActivity {
@@ -27,6 +28,8 @@ public class DrinkActivity extends AppCompatActivity {
         description.setText(drink.getDescription());
 
         // Populate the drink image
+        ImageView photo = findViewById(R.id.photo);
+        photo.setImageResource(drink.getImageResourceId());
 
     }
 }
