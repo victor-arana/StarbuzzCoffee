@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">StarbuzzCoffee</string>
+
+    <string-array name="options">
+        <item>Drink</item>
+        <item>Food</item>
+        <item>Stores</item>
+    </string-array>
 </resources>
