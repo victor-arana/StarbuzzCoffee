@@ -23,6 +23,10 @@ public class DrinkActivity extends AppCompatActivity {
         name.setText(drink.getName());
 
         // Populate the drink description
+        TextView description = findViewById(R.id.description);
+        description.setText(drink.getDescription());
+
         // Populate the drink image
+
     }
 }
