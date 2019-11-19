@@ -2,9 +2,14 @@ package com.hfad.starbuzzcoffee;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DrinkActivity extends AppCompatActivity {
 
@@ -17,19 +22,40 @@ public class DrinkActivity extends AppCompatActivity {
 
         // Get the drink from the intent
         int drinkId = getIntent().getIntExtra(EXTRA_DRINK_ID, 0);
-        Drink drink = Drink.drinks[drinkId];
 
-        // Populate the drink name
-        TextView name = findViewById(R.id.name);
-        name.setText(drink.getName());
+        // Create cursor
+        SQLiteOpenHelper databaseHelper = new DataBaseHelper(this);
 
-        // Populate the drink description
-        TextView description = findViewById(R.id.description);
-        description.setText(drink.getDescription());
+        try {
+            SQLiteDatabase database = databaseHelper.getReadableDatabase();
+            Cursor cursor = database.query("DRINK",
+                    new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID"},
+                    "_id = ?",
+                    new String[] {Integer.toString(drinkId+1)},
+                    null, null, null);
+            // Move to the  first  record on the  cursor
+            if( cursor.moveToFirst() ){
+                String name =  cursor.getString(0);
+                String description  =  cursor.getString(1);
+                int photoId =  cursor.getInt(2 );
 
-        // Populate the drink image
-        ImageView photo = findViewById(R.id.photo);
-        photo.setImageResource(drink.getImageResourceId());
+                // Populate the drink name
+                TextView nameView = findViewById(R.id.name);
+                nameView.setText(name);
 
+                // Populate the drink description
+                TextView descriptionView = findViewById(R.id.description);
+                descriptionView.setText(description);
+
+                // Populate the drink image
+                ImageView photo = findViewById(R.id.photo);
+                photo.setImageResource(photoId);
+            }
+            cursor.close();
+            database.close();
+        } catch (SQLiteException e){
+            Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }
