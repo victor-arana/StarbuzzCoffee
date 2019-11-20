@@ -15,6 +15,9 @@ public class DrinkActivity extends AppCompatActivity {
 
     public static final String EXTRA_DRINK_ID = "drinkId";
 
+    private SQLiteDatabase db;
+    private Cursor cursor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,16 +26,19 @@ public class DrinkActivity extends AppCompatActivity {
         // Get the drink from the intent
         int drinkId = getIntent().getIntExtra(EXTRA_DRINK_ID, 0);
 
-        // Create cursor
         SQLiteOpenHelper databaseHelper = new StarbuzzDataBaseHelper(this);
-
         try {
-            SQLiteDatabase database = databaseHelper.getReadableDatabase();
-            Cursor cursor = database.query("DRINK",
-                    new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID"},
-                    "_id = ?",
-                    new String[] {Integer.toString(drinkId)},
-                    null, null, null);
+            db = databaseHelper.getReadableDatabase();
+
+            // Create cursor
+            String table = "DRINK";
+            String[] columns = new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID"};
+            String selection = "_id = ?";
+            String[] selectionArgs = new String[] {Integer.toString(drinkId)};
+
+            cursor =
+                    db.query(table, columns, selection, selectionArgs, null, null, null);
+
             // Move to the  first  record on the  cursor
             if( cursor.moveToFirst() ){
                 String name =  cursor.getString(0);
@@ -52,7 +58,7 @@ public class DrinkActivity extends AppCompatActivity {
                 photo.setImageResource(photoId);
             }
             cursor.close();
-            database.close();
+            db.close();
         } catch (SQLiteException e){
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();

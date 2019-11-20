@@ -32,18 +32,18 @@ public class DrinkCategoryActivity extends AppCompatActivity implements AdapterV
 
         drinks.setOnItemClickListener(this);
 
-        // Get a reference to the Starbuzz database
         SQLiteOpenHelper starbuzzDatabaseHelper = new StarbuzzDataBaseHelper(this);
         try {
             db = starbuzzDatabaseHelper.getReadableDatabase();
-            // Create a cursor that returns the drinks
 
+            // Create a cursor
             String table = "DRINK";
             String[] columns = new String[]{"_id", "NAME"};
 
             cursor =
                     db.query(table, columns, null, null, null, null, null);
 
+            // Create adapter
             Context context = this;
             int layout = android.R.layout.simple_list_item_1;
             String[] fromColumns = new String[]{"NAME"};
