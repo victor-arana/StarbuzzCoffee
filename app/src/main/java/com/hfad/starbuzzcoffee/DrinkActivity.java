@@ -24,7 +24,7 @@ public class DrinkActivity extends AppCompatActivity {
         int drinkId = getIntent().getIntExtra(EXTRA_DRINK_ID, 0);
 
         // Create cursor
-        SQLiteOpenHelper databaseHelper = new DataBaseHelper(this);
+        SQLiteOpenHelper databaseHelper = new StarbuzzDataBaseHelper(this);
 
         try {
             SQLiteDatabase database = databaseHelper.getReadableDatabase();
