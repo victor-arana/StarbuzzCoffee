@@ -31,7 +31,7 @@ public class DrinkActivity extends AppCompatActivity {
             Cursor cursor = database.query("DRINK",
                     new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID"},
                     "_id = ?",
-                    new String[] {Integer.toString(drinkId+1)},
+                    new String[] {Integer.toString(drinkId)},
                     null, null, null);
             // Move to the  first  record on the  cursor
             if( cursor.moveToFirst() ){
