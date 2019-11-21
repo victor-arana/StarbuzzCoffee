@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +34,7 @@ public class DrinkActivity extends AppCompatActivity {
 
             // Create cursor
             String table = "DRINK";
-            String[] columns = new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID"};
+            String[] columns = new String[]{"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID", "FAVORITE"};
             String selection = "_id = ?";
             String[] selectionArgs = new String[] {Integer.toString(drinkId)};
 
@@ -44,6 +46,7 @@ public class DrinkActivity extends AppCompatActivity {
                 String name =  cursor.getString(0);
                 String description  =  cursor.getString(1);
                 int photoId =  cursor.getInt(2 );
+                boolean isFavorite = (cursor.getInt(3)==1);
 
                 // Populate the drink name
                 TextView nameView = findViewById(R.id.name);
@@ -56,6 +59,10 @@ public class DrinkActivity extends AppCompatActivity {
                 // Populate the drink image
                 ImageView photo = findViewById(R.id.photo);
                 photo.setImageResource(photoId);
+
+                // Populate the favorite value
+                CheckBox favoriteCheckbox = findViewById(R.id.favorite);
+                favoriteCheckbox.setChecked(isFavorite);
             }
             cursor.close();
             db.close();
@@ -63,5 +70,8 @@ public class DrinkActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    public void onFavoriteClicked(View view) {
     }
 }
